@@ -1,111 +1,130 @@
-# Inventory Management API
+# Inventory Management System
 
-A production-grade REST API for inventory management built with **Spring Boot 3**, **PostgreSQL**, and **JWT authentication**. Features full CRUD across products, categories, and suppliers, plus stock movement tracking with low-stock alerting.
+A REST API for managing inventory, products, categories, suppliers, and stock movements. Built with Java and Spring Boot, this project provides authentication, product management, stock tracking, and low-stock alerts.
 
-## Endpoints
+## Features
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/auth/register` | Register a new user |
-| `POST` | `/api/auth/login` | Login and receive JWT |
-| `GET` | `/api/products` | List products (search, filter, paginate, sort) |
-| `POST` | `/api/products` | Create a product |
-| `GET` | `/api/products/{id}` | Get product by ID |
-| `PUT` | `/api/products/{id}` | Update a product |
-| `DELETE` | `/api/products/{id}` | Delete a product |
-| `GET` | `/api/products/low-stock` | Get all low-stock products |
-| `POST` | `/api/products/{id}/stock` | Record stock movement |
-| `GET` | `/api/products/{id}/stock` | Get stock movement history |
-| `GET/POST/PUT/DELETE` | `/api/categories` | Category management |
-| `GET/POST/PUT/DELETE` | `/api/suppliers` | Supplier management |
-
-Full interactive docs available at `/swagger-ui.html` when running.
+- User registration and login with JWT authentication
+- Product CRUD operations
+- Category and supplier management
+- Product search, filtering, pagination, and sorting
+- Stock movement tracking
+- Low-stock alerts
+- Stock movement history
+- REST API documentation with Swagger UI
+- Unit testing with JUnit 5 and Mockito
+- Docker and Docker Compose support
 
 ## Tech Stack
 
-| Layer | Technology |
+| Component | Technology |
 |---|---|
-| Framework | Spring Boot 3.3 |
 | Language | Java 21 |
-| Database | PostgreSQL 16 |
-| Auth | Spring Security + JWT (jjwt) |
-| Docs | SpringDoc OpenAPI / Swagger UI |
-| Testing | JUnit 5, Mockito, H2 (in-memory) |
-| Build | Maven |
-| Container | Docker, Docker Compose |
+| Framework | Spring Boot 3 |
+| Database | PostgreSQL |
+| Security | Spring Security, JWT |
+| ORM | Spring Data JPA |
+| API Documentation | SpringDoc OpenAPI, Swagger UI |
+| Testing | JUnit 5, Mockito, H2 |
+| Build Tool | Maven |
+| Containerization | Docker, Docker Compose |
 
 ## Getting Started
 
-### Run with Docker (recommended)
+### Prerequisites
+
+- Java 21
+- Maven
+- PostgreSQL
+- Docker (optional)
+
+### Clone the Repository
 
 ```bash
-git clone https://github.com/jamesbeech123/inventory-api.git
-cd inventory-api
+git clone https://github.com/RudraSingh17/inventory-management-system.git
+cd inventory-management-system
+```
+
+### Run with Docker
+
+```bash
 docker-compose up --build
 ```
 
-API available at `http://localhost:8080`
-Swagger UI at `http://localhost:8080/swagger-ui.html`
+### Run Locally
 
-### Run locally
+Configure your PostgreSQL database and set the environment variables:
 
 ```bash
-# Prerequisites: Java 21, Maven, PostgreSQL
-
-# Start a PostgreSQL instance then:
 export DATABASE_URL=jdbc:postgresql://localhost:5432/inventory
 export DB_USER=postgres
-export DB_PASSWORD=postgres
-export JWT_SECRET=c2VjcmV0a2V5Zm9yaW52ZW50b3J5YXBpMTIzNDU2Nzg5MA==
+export DB_PASSWORD=your_password
+export JWT_SECRET=your_base64_encoded_secret
+```
 
+Start the application:
+
+```bash
 mvn spring-boot:run
 ```
 
-### Run tests
+### Run Tests
 
 ```bash
 mvn test
 ```
 
-## Authentication Flow
+## API Endpoints
 
-```
-POST /api/auth/register   → create account
-POST /api/auth/login      → receive JWT token
-GET  /api/products        → Authorization: Bearer <token>
-```
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register a user |
+| POST | `/api/auth/login` | Login and receive a JWT |
+| GET | `/api/products` | List products |
+| POST | `/api/products` | Create a product |
+| GET | `/api/products/{id}` | Get a product by ID |
+| PUT | `/api/products/{id}` | Update a product |
+| DELETE | `/api/products/{id}` | Delete a product |
+| GET | `/api/products/low-stock` | Retrieve low-stock products |
+| POST | `/api/products/{id}/stock` | Record a stock movement |
+| GET | `/api/products/{id}/stock` | View stock movement history |
+| GET/POST/PUT/DELETE | `/api/categories` | Manage categories |
+| GET/POST/PUT/DELETE | `/api/suppliers` | Manage suppliers |
 
-All endpoints except `/api/auth/**` require a valid JWT in the `Authorization` header.
+## Authentication
 
-## Stock Movements
+Protected endpoints require a valid JWT token in the request header:
 
-The API tracks every inventory change through the `POST /api/products/{id}/stock` endpoint:
-
-```json
-{
-  "type": "RESTOCK",
-  "quantity": 50,
-  "note": "Weekly supplier delivery"
-}
-```
-
-Movement types: `RESTOCK` · `SALE` · `ADJUSTMENT` · `RETURN`
-
-Each movement records `stockBefore` and `stockAfter` for a full audit trail.
-
-## Project Structure
-
-```
-src/main/java/com/jamesbeech/inventory/
-├── controller/       # REST controllers
-├── service/          # Business logic
-├── repository/       # Spring Data JPA repositories
-├── model/            # JPA entities
-├── security/         # JWT filter, UserDetailsService, SecurityConfig
-├── exception/        # Global exception handler + custom exceptions
-└── config/           # OpenAPI / Swagger config
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-## Author
+## Stock Movement Types
 
-**Rudra Pratap Singh** — [https://github.com/RudraSingh17](https://github.com/RudraSingh17) · [https://www.linkedin.com/in/rudra-pratap-singh-b930a9262/](https://www.linkedin.com/in/rudra-pratap-singh-b930a9262/)
+- `RESTOCK` — Increase stock
+- `SALE` — Decrease stock
+- `ADJUSTMENT` — Set stock to a specified quantity
+- `RETURN` — Increase stock for returned items
+
+Each stock movement records the quantity before and after the operation.
+
+## API Documentation
+
+After starting the application, access Swagger UI:
+
+http://localhost:8080/swagger-ui.html
+
+## Repository
+
+https://github.com/RudraSingh17/inventory-management-system
+
+## Connect with Me
+
+**Rudra Pratap Singh**
+
+- GitHub: https://github.com/RudraSingh17
+- LinkedIn: https://www.linkedin.com/in/rudra-pratap-singh-b930a9262/
+
+## License
+
+Check the applicable license and permissions before redistributing or modifying third-party code.
