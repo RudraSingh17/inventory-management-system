@@ -108,4 +108,4 @@ src/main/java/com/jamesbeech/inventory/
 
 ## Author
 
-**James Beech** — [jamesbeech.co.uk](https://jamesbeech.co.uk) · [LinkedIn](https://www.linkedin.com/in/james-beech-98b2802b4/)
+**Rudra Pratap Singh** — [https://github.com/RudraSingh17](https://github.com/RudraSingh17) · [https://www.linkedin.com/in/rudra-pratap-singh-b930a9262/](https://www.linkedin.com/in/rudra-pratap-singh-b930a9262/)
